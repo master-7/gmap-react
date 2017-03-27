@@ -7,7 +7,8 @@ import Event from "../Types/Event";
 
 type Props = {
     type: string,
-    events: Array<Event>
+    events: Array<Event>,
+    infoWindowString?: string
 };
 
 export default class Wrapper extends PureComponent {
@@ -45,6 +46,19 @@ export default class Wrapper extends PureComponent {
                         event.handler
                     );
                 })
+            }
+
+            if (this.props.infoWindowString) {
+                this.infoWindow = new GmapApi.InfoWindow({
+                    content: this.props.infoWindowString
+                });
+
+                this.figure.addListener('click', () => {
+                    this.infoWindow.open(
+                        this.context.mapInstance,
+                        this.figure
+                    );
+                });
             }
         }
         return null;

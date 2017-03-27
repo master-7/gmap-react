@@ -3,14 +3,14 @@
  */
 import React, {PureComponent} from "react";
 import loadGoogleMapsAPI from "load-google-maps-api";
+
 import MapArea from "../MapArea";
+import Coordinates from "../Types/Coordinates";
 
 type Props = {
     zoom: number,
-    center: {
-        lat: number,
-        lng: number,
-    },
+    center: Coordinates,
+    domListeners?: Array<Event>,
     children?: any
 };
 

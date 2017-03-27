@@ -2,16 +2,15 @@
  * @flow
  */
 import React, {PureComponent} from "react";
-import "./styles/index.styl";
+
+import Coordinates from "../Types/Coordinates";
+import Event from "../Types/Event";
 
 type Props = {
-    center: {
-        lat: number,
-        lng: number,
-    },
+    center: Coordinates,
     zoom: number,
     gmaps: Object,
-    domListeners: Array<{ type: string, handler: () => void }>
+    domListeners?: Array<Event>
     children?: any
 }
 
