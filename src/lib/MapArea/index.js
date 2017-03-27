@@ -1,8 +1,8 @@
 /**
  * @flow
  */
-import React, {PureComponent} from 'react'
-import './styles/index.styl';
+import React, {PureComponent} from "react";
+import "./styles/index.styl";
 
 type Props = {
     center: {
@@ -11,6 +11,7 @@ type Props = {
     },
     zoom: number,
     gmaps: Object,
+    domListeners: Array<{ type: string, handler: () => void }>
     children?: any
 }
 
@@ -42,12 +43,22 @@ export default class MapArea extends PureComponent {
         const GmapApi = this.props.gmaps;
 
         if (GmapApi.Map) {
+            const mapElement = document.getElementById('map');
             this.setState({
                 mapInstance: new GmapApi.Map(
-                    document.getElementById('map'),
+                    mapElement,
                     {...this.props}
                 )
             });
+            if (this.props.domListeners && this.props.domListeners.length > 0) {
+                this.props.domListeners.forEach((listener) => {
+                    GmapApi.event.addDomListener(
+                        mapElement,
+                        listener.type,
+                        listener.handler
+                    );
+                });
+            }
         }
     }
 
@@ -55,7 +66,7 @@ export default class MapArea extends PureComponent {
 
     render() {
         return (
-            <div id="map">
+            <div id="map" style={{height: '100%'}}>
                 {this.props.children}
             </div>
         )

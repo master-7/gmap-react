@@ -1,19 +1,15 @@
 /**
  * @flow
  */
-import React, {PureComponent} from 'react'
+import React, {PureComponent} from "react";
+
+import Event from "../Types/Event";
+import Coordinates from "../Types/Coordinates";
 
 type Props = {
-    position: {
-        lat: number,
-        lng: number,
-    },
-    infoWindowContent?: any,
-    onClick?: () => void,
-    draggable?: boolean,
-    icon?: string,
-    animation?: any,
-    props?: any
+    position: Coordinates,
+    events: Array<Event>,
+    infoWindowString?: string
 };
 
 export default class Marker extends PureComponent {
@@ -48,9 +44,9 @@ export default class Marker extends PureComponent {
                 this.marker.addListener('click', this.props.onClick);
             }
 
-            if (this.props.infoWindowContent) {
+            if (this.props.infoWindowString) {
                 this.infoWindow = new GmapApi.InfoWindow({
-                    content: this.props.infoWindowContent
+                    content: this.props.infoWindowString
                 });
 
                 this.marker.addListener('click', () => {
