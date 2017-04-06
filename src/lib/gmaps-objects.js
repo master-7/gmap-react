@@ -5,4 +5,9 @@ const Marker = withGmap(
     (DataSource) => DataSource.getComments()
 );
 
+const Marker = withGmap(
+    CommentList,
+    (DataSource) => DataSource.getComments()
+);
+
 export default {Marker}
