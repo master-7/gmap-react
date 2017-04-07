@@ -15,6 +15,8 @@ type State = {
     mapInstance: Object
 }
 
+let GmapApi, GmapApiInstance;
+
 const WithGmap = function (WrappedComponent) {
     return class extends React.Component {
         constructor(props) {
@@ -24,33 +26,43 @@ const WithGmap = function (WrappedComponent) {
 
         state: State;
 
+        shouldComponentUpdate() {
+            return this.state.mapInstance;
+        }
+
         componentDidMount() {
-            loadGoogleMapsAPI().then(
-                googleMap => {
-                    this.googleMap = googleMap;
+            if (GmapApi) {
+                this.setState({
+                    mapInstance: GmapApiInstance
+                });
+            } else {
+                loadGoogleMapsAPI().then(
+                    googleMap => {
+                        GmapApi = googleMap;
+                        this.googleMap = googleMap;
 
-                    const GmapApi = this.googleMap;
-
-                    if (GmapApi.Map) {
-                        const mapElement = document.getElementById('map');
-                        this.setState({
-                            mapInstance: new GmapApi.Map(
+                        if (GmapApi.Map) {
+                            const mapElement = document.getElementById('map');
+                            GmapApiInstance = new GmapApi.Map(
                                 mapElement,
                                 {...this.props}
-                            )
-                        });
-                        if (this.props.domListeners && this.props.domListeners.length > 0) {
-                            this.props.domListeners.forEach((listener) => {
-                                GmapApi.event.addDomListener(
-                                    mapElement,
-                                    listener.type,
-                                    listener.handler
-                                );
+                            );
+                            this.setState({
+                                mapInstance: GmapApiInstance
                             });
+                            if (this.props.domListeners && this.props.domListeners.length > 0) {
+                                this.props.domListeners.forEach((listener) => {
+                                    GmapApi.event.addDomListener(
+                                        mapElement,
+                                        listener.type,
+                                        listener.handler
+                                    );
+                                });
+                            }
                         }
                     }
-                }
-            );
+                );
+            }
         }
 
         componentWillUnmount() {
