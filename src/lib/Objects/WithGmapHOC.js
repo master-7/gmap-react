@@ -74,6 +74,7 @@ const WithGmap = function (WrappedComponent) {
 
         render() {
             const GmapApi = this.context.gmaps;
+            const isFirstInit = !this.state.mapInstance;
 
             if (this.state.mapInstance) {
                 this.figure = new GmapApi[this.props.type]({
@@ -105,7 +106,11 @@ const WithGmap = function (WrappedComponent) {
                     });
                 }
             }
-            return <WrappedComponent />;
+            return isFirstInit ? (
+                <div id="map">
+                    <WrappedComponent />
+                </div>
+            ) : <WrappedComponent />;
         }
     }
 };
