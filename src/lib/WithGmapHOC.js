@@ -68,5 +68,45 @@ const WithGmap = function (WrappedComponent) {
         componentWillUnmount() {
             this.marker.setMap(null);
         }
+
+        props: Props;
+
+        render() {
+            const GmapApi = this.context.gmaps;
+
+            if (this.state.mapInstance) {
+                this.figure = new GmapApi[this.props.type]({
+                    map: this.state.mapInstance,
+                    ...this.props
+                });
+
+                this.figure.setMap(this.context.mapInstance);
+
+                if (this.props.events && this.props.events.length > 0) {
+                    this.props.events.forEach((event) => {
+                        this.figure.addListener(
+                            event.type,
+                            event.handler
+                        );
+                    })
+                }
+
+                if (this.props.infoWindowString) {
+                    this.infoWindow = new GmapApi.InfoWindow({
+                        content: this.props.infoWindowString
+                    });
+
+                    this.figure.addListener('click', () => {
+                        this.infoWindow.open(
+                            this.context.mapInstance,
+                            this.figure
+                        );
+                    });
+                }
+            }
+            return <WrappedComponent />;
+        }
     }
 };
+
+export default WithGmap;

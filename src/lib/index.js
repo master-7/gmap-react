@@ -1,2 +1,3 @@
-export {default as Map} from './Map'
-export {default as Marker} from './Marker'
+import { Marker } from './gmaps-objects'
+
+export { Marker }
