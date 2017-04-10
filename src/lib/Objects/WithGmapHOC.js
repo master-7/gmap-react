@@ -24,8 +24,6 @@ const WithGmap = function (WrappedComponent) {
             this.state = {};
         }
 
-        state: State;
-
         shouldComponentUpdate() {
             return this.state.mapInstance;
         }
@@ -66,10 +64,13 @@ const WithGmap = function (WrappedComponent) {
         }
 
         componentWillUnmount() {
-            this.marker.setMap(null);
+            this.figure.setMap(null);
         }
 
         props: Props;
+        state: State;
+        infoWindow: any;
+        figure: any;
 
         render() {
             const GmapApi = this.context.gmaps;

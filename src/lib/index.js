@@ -1,3 +1,1 @@
-import { Marker } from './gmaps-objects'
-
-export { Marker }
+export * from './Objects'
