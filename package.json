@@ -1,6 +1,6 @@
 {
   "name": "gmap-react",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Simple react gmap API lib",
   "main": "dist/build.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/master-7/gmap-react#readme",
   "dependencies": {
+    "gmap-react": "^0.1.0",
     "load-google-maps-api": "0.0.3",
     "react": "^15.4.2"
   },
