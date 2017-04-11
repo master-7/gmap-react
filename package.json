@@ -1,6 +1,6 @@
 {
   "name": "gmap-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple react gmap API lib",
   "main": "dist/build.js",
   "scripts": {

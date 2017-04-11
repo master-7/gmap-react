@@ -1,11 +1,15 @@
 /**
  * @flow
  */
-import React from "react";
-import loadGoogleMapsAPI from "load-google-maps-api";
+import React from 'react'
+import loadGoogleMapsAPI from 'load-google-maps-api'
+
+import Coordinates from 'Types/Coordinates'
+import Event from 'Types/Coordinates'
 
 type Props = {
     position: Coordinates,
+    domListeners?: Array<Event>,
     events: Array<Event>,
     gmaps: Object,
     infoWindowString?: string
@@ -40,6 +44,9 @@ const WithGmap = function (WrappedComponent) {
                         this.googleMap = googleMap;
 
                         if (GmapApi.Map) {
+                            this.props.center = this.props.hasOwnProperty('center') ?
+                                this.props.center : this.props.position;
+
                             const mapElement = document.getElementById('map');
                             GmapApiInstance = new GmapApi.Map(
                                 mapElement,
@@ -48,7 +55,7 @@ const WithGmap = function (WrappedComponent) {
                             this.setState({
                                 mapInstance: GmapApiInstance
                             });
-                            if (this.props.domListeners && this.props.domListeners.length > 0) {
+                            if (this.props.hasOwnProperty('domListeners') && this.props.domListeners.length > 0) {
                                 this.props.domListeners.forEach((listener) => {
                                     GmapApi.event.addDomListener(
                                         mapElement,
@@ -106,11 +113,9 @@ const WithGmap = function (WrappedComponent) {
                     });
                 }
             }
-            return isFirstInit ? (
-                <div id="map">
-                    <WrappedComponent />
-                </div>
-            ) : <WrappedComponent />;
+
+            return isFirstInit ?
+                <div id="map"><WrappedComponent /></div> : <WrappedComponent />;
         }
     }
 };
