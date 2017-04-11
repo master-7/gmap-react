@@ -14,10 +14,6 @@ type Props = {
 
 const Map = WithGmap(class extends Component {
     props: Props;
-
-    render() {
-        return this.props.children;
-    }
 });
 
 export default Map;
